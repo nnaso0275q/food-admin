@@ -7,16 +7,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Sidebar from "./_components/Sidebar";
-import Header from "./_components/Header";
 import DishesCategory from "./_components/DishesCategory";
-import { AdminLayout } from "./_components/AdminLayout";
+import AdminLayout from "./_components/AdminLayout";
 export default function Home() {
   return (
-    <>
-      <div>
-        <AdminLayout></AdminLayout>
-      </div>
+    <AdminLayout>
       <div>
         <DishesCategory></DishesCategory>
       </div>
@@ -77,6 +72,6 @@ export default function Home() {
           </DialogContent>
         </Dialog>
       </div>
-    </>
+    </AdminLayout>
   );
 }

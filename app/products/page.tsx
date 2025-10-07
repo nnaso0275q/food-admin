@@ -1,3 +1,5 @@
+import AdminLayout from "../_components/AdminLayout";
+
 export default function ProductPage() {
-  return <div>Products page</div>;
+  return <AdminLayout>Products page</AdminLayout>;
 }

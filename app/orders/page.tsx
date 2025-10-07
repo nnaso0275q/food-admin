@@ -1,3 +1,5 @@
+import AdminLayout from "../_components/AdminLayout";
+
 export default function OrdersPage() {
-  return <div>Orders Page</div>;
+  return <AdminLayout>Orders Page</AdminLayout>;
 }
