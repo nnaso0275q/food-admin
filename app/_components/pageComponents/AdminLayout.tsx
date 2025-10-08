@@ -8,11 +8,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
       {/* Main content */}
       <div className="flex-1 bg-secondary p-6 overflow-auto">
-        <div className="mt-6 ml-6 mb-10">
-          <img className="ml-262" src="/Avatar.svg"></img>
-
-          <div className="mt-6">{children}</div>
-        </div>
+        <img className="justify-self-end" src="/Avatar.svg" />
+        <div className="mt-6">{children}</div>
       </div>
     </div>
   );

@@ -9,23 +9,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
-// import { use, useState } from "react";
+
 export default function CreateFoodDialog() {
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
-  //  const [price, setPrice] = useState<string>("");
+  // const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>("");
+
   const addFoodHandler = () => {
     console.log({ name });
     console.log({ price });
     fetch("http://localhost:8000/create-food", {
-      method: "Post",
-      headers:{
-        contentType: "application/json"
+      method: "POST",
+      headers: {
+        contentType: "application/json",
       },
-      body: JSON.stringify({name,price})
-      //price: Number(price), 
-    })
-
+      body: JSON.stringify({ name, price: Number(price) }),
+      //price,
+    });
   };
 
   const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +33,8 @@ export default function CreateFoodDialog() {
   };
 
   const priceChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setPrice(Number(e.target.value));
-        // setPrice(e.target.value);
+    // setPrice(Number(e.target.value));
+    setPrice(e.target.value);
   };
   return (
     <div className="bg-white w-full h-fit rounded-xl">
