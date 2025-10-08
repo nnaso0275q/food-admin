@@ -10,22 +10,52 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 
-export default function CreateFoodDialog() {
-  const [name, setName] = useState<string>("");
-  // const [price, setPrice] = useState<number>(0);
-  const [price, setPrice] = useState<string>("");
 
-  const addFoodHandler = () => {
-    console.log({ name });
-    console.log({ price });
-    fetch("http://localhost:8000/create-food", {
-      method: "POST",
-      headers: {
-        contentType: "application/json",
-      },
-      body: JSON.stringify({ name, price: Number(price) }),
-      //price,
-    });
+export default function CreateFoodDialog() {
+  const [image, setImage] = useState<File | undefined>();
+  const [ingredients, setIngredients] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  // const [price, setPrice] = useState<number>(0);
+
+  const addFoodHandler = async () => {
+    if (!name || !price || !ingredients || !category) {
+      alert("All fields are required");
+      return;
+    }
+
+    const form = new FormData();
+
+    form.append("foodName", name);
+    form.append("price", String(price));
+    if (image) {
+      form.append("image", image);
+    }
+
+    form.append("ingredients", ingredients);
+    form.append("category", category);
+
+    try {
+      const response = await fetch("http://localhost:3001/create-food", {
+        method: "POST",
+        body: form,
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Food created successfully!");
+        setName("");
+        setPrice("");
+        setImage(undefined);
+        setIngredients("");
+        setCategory("");
+      } else {
+        alert(data.error || "Failed to create food");
+      }
+    } catch (error) {
+      alert("Failed to create food");
+    }
   };
 
   const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +66,20 @@ export default function CreateFoodDialog() {
     // setPrice(Number(e.target.value));
     setPrice(e.target.value);
   };
+
+  const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const ingredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIngredients(e.target.value);
+  };
+  const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setCategory(e.target.value);
+  };
+
   return (
     <div className="bg-white w-full h-fit rounded-xl">
       <div className="p-5">
@@ -57,6 +101,7 @@ export default function CreateFoodDialog() {
               <div className="flex gap-[24px]">
                 <div className="w-[194px] h-[60px]">
                   <div className="text-sm font-medium mb-[8px]">Food name</div>
+                 
                   <Input
                     placeholder="Type food name"
                     value={name}
@@ -66,6 +111,7 @@ export default function CreateFoodDialog() {
 
                 <div className="w-[194px] h-[60px] ">
                   <div className="text-sm font-medium mb-[8px]">Food price</div>
+                
                   <Input
                     placeholder="Enter price..."
                     // defaultValue={0}
@@ -83,15 +129,22 @@ export default function CreateFoodDialog() {
                   placeholder="List ingredients..."
                   className="h-[90px]"
                   type="text"
+                  value={ingredients}
+                  onChange={ingredientsChangeHandler}
                 />
               </div>
 
               {/*  */}
               <div className="w-[412px] mt-[24px]">
                 <div className="text-sm font-medium mb-[8px]">Food image</div>
-                <div className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto ">
-                  {/* Choose a file or drag & drop it here */}
-                </div>
+                <Input
+                  className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto "
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  onChange={fileChangeHandler}
+                  placeholder="Choose a file or drag & drop it here"
+                ></Input>
               </div>
               <DialogTitle>
                 <Button
