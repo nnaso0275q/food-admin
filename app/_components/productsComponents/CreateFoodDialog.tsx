@@ -19,6 +19,21 @@ export default function CreateFoodDialog() {
   const [price, setPrice] = useState<string>("");
   // const [price, setPrice] = useState<number>(0)
 
+  //     const data = await response.json();
+  //   if (response.ok) {
+  //     alert("Food created successfully!");
+  //     setName("");
+  //     setPrice(0);
+  //     setImage(undefined);
+  //     setIngredients("");
+  //     setCategory("");
+  //   } else {
+  //     alert(data.error || "Failed to create food");
+  //   }
+  // } catch (error) {
+  //   alert("Failed to create food");
+  // }
+
   const creareFoodHandler = async () => {
     if (image) {
       addFoodHandler(name, price, image, ingredients, category);
