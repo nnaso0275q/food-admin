@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
-
+import { addFoodHandler } from "../_utils/AddFoodUtils";
 
 export default function CreateFoodDialog() {
   const [image, setImage] = useState<File | undefined>();
@@ -17,44 +17,11 @@ export default function CreateFoodDialog() {
   const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  // const [price, setPrice] = useState<number>(0);
+  // const [price, setPrice] = useState<number>(0)
 
-  const addFoodHandler = async () => {
-    if (!name || !price || !ingredients || !category) {
-      alert("All fields are required");
-      return;
-    }
-
-    const form = new FormData();
-
-    form.append("foodName", name);
-    form.append("price", String(price));
+  const creareFoodHandler = async () => {
     if (image) {
-      form.append("image", image);
-    }
-
-    form.append("ingredients", ingredients);
-    form.append("category", category);
-
-    try {
-      const response = await fetch("http://localhost:3001/create-food", {
-        method: "POST",
-        body: form,
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        alert("Food created successfully!");
-        setName("");
-        setPrice("");
-        setImage(undefined);
-        setIngredients("");
-        setCategory("");
-      } else {
-        alert(data.error || "Failed to create food");
-      }
-    } catch (error) {
-      alert("Failed to create food");
+      addFoodHandler(name, price, image, ingredients, category);
     }
   };
 
@@ -76,9 +43,10 @@ export default function CreateFoodDialog() {
   const ingredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIngredients(e.target.value);
   };
-  const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value);
-  };
+
+  // const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setCategory(e.target.value);
+  // };
 
   return (
     <div className="bg-white w-full h-fit rounded-xl">
@@ -101,7 +69,7 @@ export default function CreateFoodDialog() {
               <div className="flex gap-[24px]">
                 <div className="w-[194px] h-[60px]">
                   <div className="text-sm font-medium mb-[8px]">Food name</div>
-                 
+
                   <Input
                     placeholder="Type food name"
                     value={name}
@@ -111,7 +79,7 @@ export default function CreateFoodDialog() {
 
                 <div className="w-[194px] h-[60px] ">
                   <div className="text-sm font-medium mb-[8px]">Food price</div>
-                
+
                   <Input
                     placeholder="Enter price..."
                     // defaultValue={0}
@@ -148,7 +116,7 @@ export default function CreateFoodDialog() {
               </div>
               <DialogTitle>
                 <Button
-                  onClick={addFoodHandler}
+                  onClick={creareFoodHandler}
                   className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
                   variant="outline"
                 >

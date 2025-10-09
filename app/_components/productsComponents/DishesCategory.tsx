@@ -16,7 +16,7 @@ export default function DishesCategory() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const getCategories = async () => {
-    const result = await fetch("http://localhost:3001/api/categories");
+    const result = await fetch("http://localhost:8000/api/categories");
     const responseData = await result.json();
     console.log({ responseData });
     const { data } = responseData;
@@ -32,7 +32,7 @@ export default function DishesCategory() {
     setNewCategory(e.target.value);
   };
   const createCategoryHandler = async () => {
-    await fetch("http://localhost:3001/api/categories", {
+    await fetch("http://localhost:8000/api/categories", {
       method: "POST",
       mode: "no-cors",
       headers: {
@@ -47,7 +47,7 @@ export default function DishesCategory() {
   };
 
   const deleteCategoryHandler = async (category: string) => {
-    await fetch("http://localhost:3001/api/categories/delete", {
+    await fetch("http://localhost:8000/api/categories/delete", {
       method: "POST",
       mode: "no-cors",
       headers: {
