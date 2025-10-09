@@ -20,7 +20,7 @@ export default function DishesCategory() {
     const responseData = await result.json();
     console.log({ responseData });
     const { data } = responseData;
-    console.log(data);
+    console.log(data)
     setCategories(data);
   };
 
@@ -57,19 +57,6 @@ export default function DishesCategory() {
     });
   };
 
-  // const categorys = [
-  //   "All Dishes",
-  //   "Appatizers",
-  //   "Salads",
-  //   "Pizzas",
-  //   "Lunch favorites",
-  //   "Main dishes",
-  //   "Fish & Sea foods",
-  //   "Branch",
-  //   "Side dish",
-  //   "Desserts",
-  //   "Beverages",
-  // ];
   return (
     <div className=" h-fit w-full bg-white rounded-xl">
       <div className="p-6 inter">

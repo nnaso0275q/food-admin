@@ -16,7 +16,7 @@ export default function CreateFoodDialog() {
   const [ingredients, setIngredients] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<string>("");
+  const [price, setPrice] = useState<string>("")
   // const [price, setPrice] = useState<number>(0)
 
   //     const data = await response.json();

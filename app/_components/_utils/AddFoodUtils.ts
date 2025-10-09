@@ -5,13 +5,13 @@ export const addFoodHandler = async (
   ingredients: string,
   category: string
 ) => {
-  if (!name || !price || !image || !ingredients || !category) {
+  if (!name || !price || !image || !ingredients) {
     alert("All fields are required");
     return;
   }
 
   const form = new FormData();
-  form.append("foodName", name);
+  form.append("name", name);
   form.append("price", String(price));
   if (image) {
     form.append("image", image);
