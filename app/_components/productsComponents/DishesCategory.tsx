@@ -10,8 +10,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ChangeEvent, useEffect, useState } from "react";
+
+interface Category {
+  _id: string;
+  name: string;
+  __v?: number;
+}
+
 export default function DishesCategory() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -39,7 +46,7 @@ export default function DishesCategory() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        newCategory,
+        name:newCategory
       }),
     });
     setModalOpen(false);
@@ -63,9 +70,9 @@ export default function DishesCategory() {
         <h2 className="font-semibold">Dishes category</h2>
         <div className="flex flex-wrap gap-2 mt-4 font-medium">
           {categories.map((category) => (
-            <div key={category}>
+            <div key={category._id}>
               <Button className="relative h-fit rounded-full w-fit border border-gray-300 text-black bg-white hover:bg-gray-300 ">
-                {category}
+                {category.name}
               </Button>
               {/* <button
                 className="absolute bg-black text-white hover:bg-gray-600 w-9 h-9 rounded-full justify-self-end "
