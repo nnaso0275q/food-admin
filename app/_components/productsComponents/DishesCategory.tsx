@@ -20,7 +20,7 @@ export default function DishesCategory() {
     const responseData = await result.json();
     console.log({ responseData });
     const { data } = responseData;
-    console.log(data)
+    console.log(data);
     setCategories(data);
   };
 

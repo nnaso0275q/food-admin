@@ -2,6 +2,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,7 +17,7 @@ export default function CreateFoodDialog() {
   const [ingredients, setIngredients] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<string>("")
+  const [price, setPrice] = useState<string>("");
   // const [price, setPrice] = useState<number>(0)
 
   //     const data = await response.json();
@@ -138,6 +139,7 @@ export default function CreateFoodDialog() {
                   Add Dish
                 </Button>
               </DialogTitle>
+              <DialogDescription></DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>
