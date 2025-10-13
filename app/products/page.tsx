@@ -9,7 +9,7 @@ export default function ProductPage() {
       <DishesCategory />
       <div className="bg-white w-full h-fit rounded-xl mt-6">
         <div className="p-5">
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             <CreateFoodDialog />
             <AddCreateFood />
           </div>

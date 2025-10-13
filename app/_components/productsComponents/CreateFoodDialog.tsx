@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
-import { addFoodHandler } from "../_utils/AddFoodUtils";
+import { addFoodHandler } from "../_utils/AddFoodHandler";
 
 export default function CreateFoodDialog() {
   const [image, setImage] = useState<File | undefined>();
@@ -18,26 +18,10 @@ export default function CreateFoodDialog() {
   const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  // const [price, setPrice] = useState<number>(0)
-
-  //     const data = await response.json();
-  //   if (response.ok) {
-  //     alert("Food created successfully!");
-  //     setName("");
-  //     setPrice(0);
-  //     setImage(undefined);
-  //     setIngredients("");
-  //     setCategory("");
-  //   } else {
-  //     alert(data.error || "Failed to create food");
-  //   }
-  // } catch (error) {
-  //   alert("Failed to create food");
-  // }
 
   const creareFoodHandler = async () => {
     if (image) {
-      addFoodHandler(name, price, image, ingredients, category);
+      await addFoodHandler(name, price, image, ingredients, category);
     }
   };
 
