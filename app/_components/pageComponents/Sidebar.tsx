@@ -31,10 +31,10 @@ export default function Sidebar() {
         {/* orthers end*/}
 
         {/* settings */}
-        <div className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center">
+        {/* <div className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center">
           <img className="w-5.5 h-5.5" src="/Vector2.svg"></img>
           <h2 className="text-black">Settings</h2>
-        </div>
+        </div> */}
         {/* settings end*/}
       </div>
     </div>

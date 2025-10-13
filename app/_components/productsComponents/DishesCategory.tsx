@@ -53,33 +53,34 @@ export default function DishesCategory() {
     await getCategories();
   };
 
-  const deleteCategoryHandler = async (category: string) => {
-    await fetch("http://localhost:8000/api/categories/delete", {
+  const deleteCategoryHandler = async (id: string) => {
+    const res = await fetch("http://localhost:8000/api/categories/delete", {
       method: "POST",
-      mode: "no-cors",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(category),
+
+      body: JSON.stringify({ id }),
     });
+    await getCategories();
   };
 
   return (
     <div className=" h-fit w-full bg-white rounded-xl">
       <div className="p-6 inter">
         <h2 className="font-semibold">Dishes category</h2>
-        <div className="flex flex-wrap gap-2 mt-4 font-medium">
+        <div className="flex flex-wrap gap-2 mt-4 font-medium ">
           {categories.map((category) => (
-            <div key={category._id}>
-              <Button className="relative h-fit rounded-full w-fit border border-gray-300 text-black bg-white hover:bg-gray-300 ">
-                {category.name}
-              </Button>
-              <button
-                className="absolute bg-black text-white hover:bg-gray-600 w-7 h-7 items-center mx-auto  rounded-full justify-self-end "
-                onClick={() => deleteCategoryHandler(category._id)}
-              >
-                -
-              </button>
+            <div key={category._id} className="flex items-center gap-2">
+              <div className="flex items-center gap-2 border border-gray-300 rounded-full pl-4 py-1 pr-1 bg-white text-black">
+                <span>{category.name}</span>
+                <button
+                  onClick={() => deleteCategoryHandler(category._id)}
+                  className="bg-black text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-gray-700"
+                >
+                  -
+                </button>
+              </div>
             </div>
           ))}
 
@@ -92,10 +93,11 @@ export default function DishesCategory() {
                 <DialogTitle>Add new category</DialogTitle>
                 <DialogDescription asChild>
                   <div className="w-[412px] mt-[24px]">
-                    <span className="text-sm font-medium mb-[8px]">
+                    <span className="text-sm font-medium mb-[8px] text-black">
                       Category name
                     </span>
                     <Input
+                      className="mt-2 text-black"
                       onChange={newCategoryNameChangeHandler}
                       placeholder="List ingredients..."
                     />
