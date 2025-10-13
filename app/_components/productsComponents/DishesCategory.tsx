@@ -46,7 +46,7 @@ export default function DishesCategory() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name:newCategory
+        name: newCategory,
       }),
     });
     setModalOpen(false);
@@ -74,12 +74,12 @@ export default function DishesCategory() {
               <Button className="relative h-fit rounded-full w-fit border border-gray-300 text-black bg-white hover:bg-gray-300 ">
                 {category.name}
               </Button>
-              {/* <button
-                className="absolute bg-black text-white hover:bg-gray-600 w-9 h-9 rounded-full justify-self-end "
-                onClick={() => deleteCategoryHandler(category)}
+              <button
+                className="absolute bg-black text-white hover:bg-gray-600 w-7 h-7 items-center mx-auto  rounded-full justify-self-end "
+                onClick={() => deleteCategoryHandler(category._id)}
               >
-                X
-              </button> */}
+                -
+              </button>
             </div>
           ))}
 
