@@ -11,6 +11,7 @@ type FoodSchematype = {
 export default function AddCreateFood() {
   const [foods, setFoods] = useState<FoodSchematype[]>([]);
 
+  // Hool tatah
   const getFoods = async () => {
     const result = await fetch("http://localhost:8000/api/food");
     const responseData = await result.json();
@@ -24,19 +25,31 @@ export default function AddCreateFood() {
     getFoods();
   }, []);
 
-  const pathCreateFood = async (id: string) => {
-    const res = await fetch("http://localhost:8000/api/food/patch", {
+  // Patch huselt
+  const pathUpdateFood = async (id: string) => {
+    try {
+    const res = await fetch(`http://localhost:8000/api/food/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({
+        name: "shine hoolnii ner",
+        price: "25000",
+      }),
     });
-  };
+    if(!res.ok) throw new Error("Update failed")
+  //   const data = await res.json()
+  // console.log("Updated", data)
 
+  getFoods()
+    } catch(error){
+      console.error(error)
+    }
+  }
   return (
     <>
-      {foods.map((food) => (
+      {foods?.map((food) => (
         <div
           key={food._id}
           className="w-[270px] h-[241px] rounded-[20px] border border-gray-200"
@@ -51,7 +64,9 @@ export default function AddCreateFood() {
               />
 
               {/* edit.svg */}
-              <img src="edit.svg" className="absolute top-2 h-11 w-11 m-3" />
+              <img src="edit.svg" className="absolute top-2 h-11 w-11 m-3"
+              // onClick={()=>pathUpdateFood(food._id)}
+              />
             </div>
 
             {/* Detail */}

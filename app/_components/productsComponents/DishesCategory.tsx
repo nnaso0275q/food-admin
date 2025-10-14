@@ -22,7 +22,7 @@ export default function DishesCategory() {
   const [newCategory, setNewCategory] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const getCategories = async () => {
+  const getDeleteCategories = async () => {
     const result = await fetch("http://localhost:8000/api/categories");
     const responseData = await result.json();
     console.log({ responseData });
@@ -31,8 +31,9 @@ export default function DishesCategory() {
     setCategories(data);
   };
 
+
   useEffect(() => {
-    getCategories();
+    getDeleteCategories();
   }, []);
 
   const newCategoryNameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +51,7 @@ export default function DishesCategory() {
       }),
     });
     setModalOpen(false);
-    await getCategories();
+    await getDeleteCategories();
   };
 
   const deleteCategoryHandler = async (id: string) => {
@@ -62,7 +63,7 @@ export default function DishesCategory() {
 
       body: JSON.stringify({ id }),
     });
-    await getCategories();
+    await getDeleteCategories();
   };
 
   return (

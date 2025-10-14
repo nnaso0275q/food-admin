@@ -1,11 +1,13 @@
-export const addFoodHandler = async (
+export const AddFoodHandler = async (
   name: string,
   price: string,
   image: File,
   ingredients: string,
-  category: string
+  categoryId: string
+  
 ) => {
-  if (!name || !price || !image || !ingredients) {
+  
+  if (!name || !price || !image || !ingredients || !categoryId) {
     alert("All fields are required");
     return;
   }
@@ -18,7 +20,7 @@ export const addFoodHandler = async (
   }
 
   form.append("ingredients", ingredients);
-  form.append("category", category);
+  form.append("categoryId", categoryId);
 
   try {
     const response = await fetch("http://localhost:8000/api/food", {
