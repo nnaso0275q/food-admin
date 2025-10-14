@@ -4,7 +4,6 @@ export const addFoodHandler = async (
   image: File,
   ingredients: string,
   category: string
-  // onSuccess?: () => void
 ) => {
   if (!name || !price || !image || !ingredients) {
     alert("All fields are required");
@@ -29,8 +28,6 @@ export const addFoodHandler = async (
     // getFoods();
 
     const data = await response.json();
-    // if (onSuccess) onSuccess();
-    // return data;
     return await response.json();
   } catch (error) {
     alert("Failed to create food");

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { addFoodHandler } from "../_utils/AddFoodHandler";
 type FoodSchematype = {
   _id: string;
   name: string;
@@ -25,45 +24,34 @@ export default function AddCreateFood() {
     getFoods();
   }, []);
 
-  // // Шинэ хоол нэмэх үед
-  // const handleAddFood = async (foodData: {
-  //   name: string;
-  //   price: string;
-  //   image: File;
-  //   ingredients: string;
-  //   category: string;
-  // }) => {
-  //   await addFoodHandler(
-  //     foodData.name,
-  //     foodData.price,
-  //     foodData.image,
-  //     foodData.ingredients,
-  //     foodData.category,
-  //     getFoods // энд getFoods-ийг дамжуулж байна
-  //   );
-  // };
-
   return (
     <>
       {foods.map((food) => (
         <div
           key={food._id}
-          className=" w-[270px] h-[241px] rounded-[20px] border-1"
+          className="w-[270px] h-[241px] rounded-[20px] border border-gray-200"
         >
           <div className="m-4">
             {/* Image */}
-            <div className="w-full h-[129px] bg-gray-100 rounded-[12px] relative">
-              {/* {food.image} */}
-              <img className="absolute m-5 justify-items-end" src="edit.svg" />
+            <div className="relative w-full h-[129px] rounded-[12px] overflow-hidden bg-gray-100">
+              <img
+                src={food.image}
+                alt={food.name}
+                className="w-full h-full object-cover"
+              />
+
+              {/* edit.svg */}
+              <img src="edit.svg" className="absolute top-2 h-11 w-11 m-3" />
             </div>
-            {/* Image end */}
+
             {/* Detail */}
-            <div className="flex items-center justify-between">
-              <div>{food.name}</div>
-              <div>{food.price}</div>
-            </div>
-            <div>{food.ingredients}</div>
-            // {/* Detail end */}
+            <>
+              <div className="flex items-center justify-between mt-5">
+                <div className="text-red-500">{food.name}</div>
+                <div>{food.price}</div>
+              </div>
+              <div>{food.ingredients}</div>
+            </>
           </div>
         </div>
       ))}

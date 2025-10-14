@@ -55,7 +55,7 @@ export default function CreateFoodDialog() {
           <img className="w-[40px] h-[40px] mx-auto" src="/icon.svg"></img>
           <h2 className="mt-[24px] inter text-sm font-medium text-secondary-foreground">
             Add new Dish to <br />
-            Salads
+            Appetizers
           </h2>
         </>
       </DialogTrigger>
