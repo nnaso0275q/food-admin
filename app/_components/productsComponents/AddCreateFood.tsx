@@ -24,6 +24,16 @@ export default function AddCreateFood() {
     getFoods();
   }, []);
 
+  const pathCreateFood = async (id: string) => {
+    const res = await fetch("http://localhost:8000/api/food/patch", {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  };
+
   return (
     <>
       {foods.map((food) => (
