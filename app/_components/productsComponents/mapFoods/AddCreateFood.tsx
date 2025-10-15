@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import UpdateFoodById from "./UpdateFoodById";
 type FoodSchematype = {
   _id: string;
   name: string;
@@ -28,25 +29,25 @@ export default function AddCreateFood() {
   // Patch huselt
   const pathUpdateFood = async (id: string) => {
     try {
-    const res = await fetch(`http://localhost:8000/api/food/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        name: "shine hoolnii ner",
-        price: "25000",
-      }),
-    });
-    if(!res.ok) throw new Error("Update failed")
-  //   const data = await res.json()
-  // console.log("Updated", data)
+      const res = await fetch(`http://localhost:8000/api/food/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "shine hoolnii ner",
+          price: "25000",
+        }),
+      });
+      if (!res.ok) throw new Error("Update failed");
+      //   const data = await res.json()
+      // console.log("Updated", data)
 
-  getFoods()
-    } catch(error){
-      console.error(error)
+      getFoods();
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
   return (
     <>
       {foods?.map((food) => (
@@ -64,8 +65,11 @@ export default function AddCreateFood() {
               />
 
               {/* edit.svg */}
-              <img src="edit.svg" className="absolute top-2 h-11 w-11 m-3"
-              // onClick={()=>pathUpdateFood(food._id)}
+              <img
+                src="edit.svg"
+                onClick={() => UpdateFoodById}
+                className="absolute top-2 h-11 w-11 m-3"
+                // onClick={()=>pathUpdateFood(food._id)}
               />
             </div>
 

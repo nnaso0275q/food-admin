@@ -1,5 +1,5 @@
 import { AdminLayout } from "../_components/pageComponents/AdminLayout";
-import AddCreateFood from "../_components/productsComponents/AddCreateFood";
+import AddCreateFood from "../_components/productsComponents/mapFoods/AddCreateFood";
 import CreateFoodDialog from "../_components/productsComponents/CreateFoodDialog";
 import DishesCategory from "../_components/productsComponents/DishesCategory";
 

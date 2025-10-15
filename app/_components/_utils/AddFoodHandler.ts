@@ -3,11 +3,9 @@ export const AddFoodHandler = async (
   price: string,
   image: File,
   ingredients: string,
-  categoryId: string
-  
+  selectedCategory: string
 ) => {
-  
-  if (!name || !price || !image || !ingredients || !categoryId) {
+  if (!name || !price || !image || !ingredients || !selectedCategory) {
     alert("All fields are required");
     return;
   }
@@ -20,7 +18,7 @@ export const AddFoodHandler = async (
   }
 
   form.append("ingredients", ingredients);
-  form.append("categoryId", categoryId);
+  form.append("categoryId", selectedCategory);
 
   try {
     const response = await fetch("http://localhost:8000/api/food", {
@@ -30,7 +28,7 @@ export const AddFoodHandler = async (
     // getFoods();
 
     const data = await response.json();
-    return await response.json();
+    return data;
   } catch (error) {
     alert("Failed to create food");
   }
