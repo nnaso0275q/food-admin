@@ -1,6 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import UpdateFoodById from "./UpdateFoodById";
+import { Pen } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 type FoodSchematype = {
   _id: string;
   name: string;
@@ -15,39 +24,14 @@ export default function AddCreateFood() {
   // Hool tatah
   const getFoods = async () => {
     const result = await fetch("http://localhost:8000/api/food");
-    const responseData = await result.json();
-    console.log({ responseData });
-    const { data } = responseData;
-    console.log(data);
-    setFoods(responseData.data);
+    const data = await result.json();
+    setFoods(data.data);
   };
 
   useEffect(() => {
     getFoods();
   }, []);
 
-  // Patch huselt
-  const pathUpdateFood = async (id: string) => {
-    try {
-      const res = await fetch(`http://localhost:8000/api/food/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          name: "shine hoolnii ner",
-          price: "25000",
-        }),
-      });
-      if (!res.ok) throw new Error("Update failed");
-      //   const data = await res.json()
-      // console.log("Updated", data)
-
-      getFoods();
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <>
       {foods?.map((food) => (
@@ -61,16 +45,29 @@ export default function AddCreateFood() {
               <img
                 src={food.image}
                 alt={food.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover "
               />
 
-              {/* edit.svg */}
-              <img
-                src="edit.svg"
-                onClick={() => UpdateFoodById}
-                className="absolute top-2 h-11 w-11 m-3"
-                // onClick={()=>pathUpdateFood(food._id)}
-              />
+              <Dialog>
+                <DialogTrigger>
+                  <img
+                    src="edit.svg"
+                    className="absolute top-2 h-11 w-11 m-3"
+                  />
+                </DialogTrigger>
+                <DialogContent className="inter w-115 m-6">
+                  <div className="font-bold text-lg">Dishes Info</div>
+                  <DialogHeader>
+                    <DialogTitle className="mt-3 mb-3">
+                      
+                    </DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
 
             {/* Detail */}
