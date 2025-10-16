@@ -11,24 +11,73 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { AddCreateFoodProps, Category, FoodType } from "@/lib/types";
 
-export default function AddCreateFood() {
-  const [foods, setFoods] = useState<FoodSchematype[]>([]);
+export default function AddCreateFood({
+  refetchFoods,
+}: {
+  category: Category;
+  foods: FoodType[];
+  refetchFoods: () => Promise<void>;
+}) {
+  const [allFoods, setAllFoods] = useState<FoodType[]>([]);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState<number | string>("");
+  const [ingredients, setIngredients] = useState("");
+  const [image, setImage] = useState<File | undefined>();
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  // Hool tatah
   const getFoods = async () => {
     const result = await fetch("http://localhost:8000/api/food");
     const data = await result.json();
-    setFoods(data.data);
+    setAllFoods(data.data);
   };
 
   useEffect(() => {
     getFoods();
   }, []);
 
+  const createFoodHandler = async () => {
+    if (!name || !price || !ingredients || !image || !selectedCategory) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("name", name);
+    form.append("price", String(price));
+    form.append("ingredients", ingredients);
+    form.append("categoryId", selectedCategory);
+    form.append("image", image);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/food", {
+        method: "POST",
+        body: form,
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        await refetchFoods();
+        setOpen(false);
+        setName("");
+        setPrice("");
+        setIngredients("");
+        setImage(undefined);
+        setSelectedCategory("");
+      } else {
+        alert(data.error || "Failed to create food");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  };
+
   return (
     <>
-      {foods?.map((food) => (
+      {allFoods?.map((food: FoodType) => (
         <div
           key={food._id}
           className="w-[270px] h-[241px] rounded-[20px] border border-gray-200"
@@ -39,114 +88,117 @@ export default function AddCreateFood() {
               <img
                 src={food.image}
                 alt={food.name}
-                className="w-full h-full object-cover "
+                className="w-full h-full object-cover"
               />
 
-              <Dialog>
-                <DialogTrigger>
+              {/* Dialog with controlled open */}
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
                   <img
                     src="edit.svg"
-                    className="absolute top-2 h-11 w-11 m-3"
+                    className="absolute top-2 right-2 h-11 w-11 m-3 cursor-pointer"
+                    alt="edit"
+                    onClick={() => setOpen(true)}
                   />
                 </DialogTrigger>
 
-                <DialogContent className="inter w-115 ">
-                  <div className="font-bold text-lg">Dishes info</div>
-
+                <DialogContent className="inter w-[480px]">
                   <DialogHeader>
-                    <>
-                      <div className="mt-6 flex">
-                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
-                          Dish name
-                        </div>
-
-                        <Input
-                          placeholder="Type food name"
-                          // value={name}
-                          // onChange={nameChangeHandler}
-                        />
-                      </div>
-
-                      {/*  */}
-                      <div className="mt-3 flex">
-                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
-                          Dish category
-                        </div>
-
-                        <Input
-                          placeholder="Type food name"
-                          // value={name}
-                          // onChange={nameChangeHandler}
-                        />
-                      </div>
-
-                      {/*  */}
-                      <div className="mt-3 w-[412px] flex">
-                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
-                          Ingredients
-                        </div>
-                        <Input
-                          placeholder="List ingredients..."
-                          className="h-[80px]"
-                          type="text"
-                          // value={ingredients}
-                          // onChange={ingredientsChangeHandler}
-                        />
-                      </div>
-
-                      <div className="mt-3 flex">
-                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
-                          Price
-                        </div>
-
-                        <Input
-                          placeholder="Enter price..."
-                          // defaultValue={0}
-                          // value={price}
-                          // onChange={priceChangeHandler}
-                          type="number"
-                        />
-                      </div>
-
-                      {/*  */}
-                      <div className="mt-3 w-[412px] flex justify-between">
-                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
-                          Image
-                        </div>
-                        <Input
-                          className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto "
-                          id="picture"
-                          type="file"
-                          accept="image/*"
-                          // onChange={fileChangeHandler}
-                          placeholder="Choose a file or drag & drop it here"
-                        ></Input>
-                      </div>
-
-                      <DialogTitle>
-                        <Button
-                          // onClick={creareFoodHandler}
-                          className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
-                          variant="outline"
-                        >
-                          Add Dish
-                        </Button>
-                      </DialogTitle>
-                      <DialogDescription></DialogDescription>
-                    </>
+                    <DialogTitle className="font-bold text-lg">
+                      Dishes infodfbkmdfkbdkfb
+                    </DialogTitle>
+                    <DialogDescription>
+                      Add or update your dish details
+                    </DialogDescription>
                   </DialogHeader>
+
+                  <div className="space-y-4 mt-6">
+                    {/* Name */}
+                    <div className="flex items-center gap-3">
+                      <span className="w-[120px] text-xs text-muted-foreground">
+                        Dish name
+                      </span>
+                      <Input
+                        placeholder="Type food name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Category */}
+                    <div className="flex items-center gap-3">
+                      <span className="w-[120px] text-xs text-muted-foreground">
+                        Dish category
+                      </span>
+                      <Input
+                        placeholder="Enter category ID"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Ingredients */}
+                    <div className="flex items-start gap-3">
+                      <span className="w-[120px] text-xs text-muted-foreground">
+                        Ingredients
+                      </span>
+                      <Input
+                        placeholder="List ingredients..."
+                        className="h-[80px]"
+                        value={ingredients}
+                        onChange={(e) => setIngredients(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Price */}
+                    <div className="flex items-center gap-3">
+                      <span className="w-[120px] text-xs text-muted-foreground">
+                        Price
+                      </span>
+                      <Input
+                        type="number"
+                        placeholder="Enter price..."
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Image */}
+                    <div className="flex items-center gap-3">
+                      <span className="w-[120px] text-xs text-muted-foreground">
+                        Image
+                      </span>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          setImage(e.target.files?.[0] || undefined)
+                        }
+                      />
+                    </div>
+
+                    {/* Button */}
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={createFoodHandler}
+                        className="w-[120px] h-[40px] bg-black text-white"
+                      >
+                        Add Dish
+                      </Button>
+                    </div>
+                  </div>
                 </DialogContent>
               </Dialog>
             </div>
 
             {/* Detail */}
-            <>
-              <div className="flex items-center justify-between mt-5">
-                <div className="text-red-500">{food.name}</div>
-                <div>{food.price}</div>
-              </div>
-              <div>{food.ingredients}</div>
-            </>
+            <div className="flex items-center justify-between mt-5">
+              <div className="text-red-500">{food.name}</div>
+              <div>{food.price}</div>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {food.ingredients}
+            </div>
           </div>
         </div>
       ))}

@@ -3,7 +3,14 @@ export const AddFoodHandler = async (
   price: string,
   image: File,
   ingredients: string,
-  selectedCategory: string
+  selectedCategory: string,
+  refetchFoods: () => Promise<void>,
+  setOpen: (open: boolean) => void,
+  setName: (name: string) => void,
+  setPrice: (price: string | number) => void,
+  setImage: (image: File | undefined) => void,
+  setIngredients: (ingredients: string) => void,
+  setSelectedCategory: (category: string) => void
 ) => {
   if (!name || !price || !image || !ingredients || !selectedCategory) {
     alert("All fields are required");
@@ -15,21 +22,29 @@ export const AddFoodHandler = async (
   form.append("price", String(price));
   if (image) {
     form.append("image", image);
-  }
+  } 
 
   form.append("ingredients", ingredients);
   form.append("categoryId", selectedCategory);
 
   try {
-    const response = await fetch("http://localhost:8000/api/food", {
-      method: "POST",
-      body: form,
-    });
-    // getFoods();
+      const res = await fetch("http://localhost:8000/api/food", {
+        method: "POST",
+        body: form,
+      });
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
+      const data = await res.json();
+      if (res.ok) {
+        await refetchFoods();
+        setOpen(false);
+        setName("");
+        setPrice(0);
+        setImage(undefined);
+        setIngredients("");
+      } else {
+        alert(data.error || "Failed to create food");
+      }
+    } catch (error) {
     alert("Failed to create food");
   }
 };

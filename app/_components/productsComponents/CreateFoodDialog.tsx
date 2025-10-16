@@ -10,14 +10,53 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { Category, FoodType } from "@/lib/types";
 
-export default function CreateFoodDialog() {
+export default function CreateFoodDialog({ title }: { title: string }) {
   const [image, setImage] = useState<File | undefined>();
   const [ingredients, setIngredients] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const AddFoodHandler = async () => {
+    if (!name || !price || !image || !ingredients) {
+      alert("All fields are required");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("name", name);
+    form.append("price", price);
+    if (image) {
+      form.append("image", image);
+    }
+
+    form.append("ingredients", ingredients);
+    // form.append("categoryId", selectedCategory);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/food", {
+        method: "POST",
+        body: form,
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setOpen(false);
+        setName("");
+        setPrice("");
+        setImage(undefined);
+        setIngredients("");
+      } else {
+        alert(data.error || "Failed to create food");
+      }
+    } catch (error) {
+      alert("Failed to create food");
+    }
+  };
+
   // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   // console.log({ selectedCategory });
   // console.log(
@@ -29,22 +68,15 @@ export default function CreateFoodDialog() {
   //   !selectedCategory
   // );
 
-  const getCategories = async () => {
-    const response = await fetch("http://localhost:8000/api/categories");
-    const data = await response.json();
-    setCategories(data.data);
-  };
+  // const getCategories = async () => {
+  //   const response = await fetch("http://localhost:8000/api/categories");
+  //   const data = await response.json();
+  //   setCategories(data.data);
+  // };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  const AddFoodHandler = async () => {
-    if (!name || !price || !image || !ingredients) {
-      alert("All fields are required");
-      return;
-    }
-  };
+  // useEffect(() => {
+  //   getCategories();
+  // }, []);
 
   const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -65,19 +97,22 @@ export default function CreateFoodDialog() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="border-1 border-red-400 border-dashed w-[270px] h-[241px] rounded-[20px]">
         <>
-          <img className="w-[40px] h-[40px] mx-auto" src="/icon.svg"></img>
+          <img
+            className="w-[40px] h-[40px] mx-auto"
+            src="/icon.svg"
+            onClick={() => setOpen(true)}
+          ></img>
           <h2 className="mt-[24px] inter text-sm font-medium text-secondary-foreground">
-            Add new Dish to <br />
-            Appetizers
+            Add new Dish to {title}
           </h2>
         </>
       </DialogTrigger>
 
       <DialogContent className="inter w-115 ">
-        <div className="font-bold text-lg"> Add new Dish to Appetizers</div>
+        <div className="font-bold text-lg"> Add new Dish to {title}</div>
 
         <DialogHeader>
           <div className="flex gap-[24px]">
@@ -128,22 +163,6 @@ export default function CreateFoodDialog() {
               placeholder="Choose a file or drag & drop it here"
             ></Input>
           </div>
-          {/* {categories.length > 0 && (
-            <Select onValueChange={(value) => setSelectedCategory(value)}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => {
-                  return (
-                    <SelectItem key={category._id} value={category._id}>
-                      {category.name}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          )} */}
           <DialogTitle>
             <Button
               onClick={AddFoodHandler}
