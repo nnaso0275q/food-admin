@@ -22,29 +22,27 @@ export const AddFoodHandler = async (
   form.append("price", String(price));
   if (image) {
     form.append("image", image);
-  } 
+  }
 
   form.append("ingredients", ingredients);
   form.append("categoryId", selectedCategory);
 
   try {
-      const res = await fetch("http://localhost:8000/api/food", {
-        method: "POST",
-        body: form,
-      });
+    const res = await fetch("http://localhost:8000/api/food", {
+      method: "POST",
+      body: form,
+    });
 
-      const data = await res.json();
-      if (res.ok) {
-        await refetchFoods();
-        setOpen(false);
-        setName("");
-        setPrice(0);
-        setImage(undefined);
-        setIngredients("");
-      } else {
-        alert(data.error || "Failed to create food");
-      }
-    } catch (error) {
+    const data = await res.json();
+    if (res.ok) {
+      await refetchFoods();
+      setOpen(false);
+      setName("");
+      setPrice(0);
+      setImage(undefined);
+      setIngredients("");
+    }
+  } catch (error) {
     alert("Failed to create food");
   }
 };

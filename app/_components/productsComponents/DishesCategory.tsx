@@ -11,8 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Category, FoodType } from "@/lib/types";
 import { ChangeEvent, useEffect, useState } from "react";
-import AddCreateFood from "./mapFoods/AddCreateFood";
 import CreateFoodDialog from "./CreateFoodDialog";
+import AddCreateFood from "./mapFoods/AddCreateFood";
 
 export default function DishesCategory() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -71,72 +71,81 @@ export default function DishesCategory() {
   };
 
   return (
-    <div className=" h-fit w-full bg-white rounded-xl">
-      <div className="p-6 inter">
-        <h2 className="font-semibold">Dishes category</h2>
-        <div className="flex flex-wrap gap-2 mt-4 font-medium ">
-          {categories.map((category) => (
-            <div key={category._id} className="flex items-center gap-2">
-              <div className="flex items-center gap-2 border border-gray-300 rounded-full pl-4 py-1 pr-1 bg-white text-black">
-                <span>{category.name}</span>
-                <button
-                  onClick={() => deleteCategoryHandler(category._id)}
-                  className="bg-black text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-gray-700"
-                >
-                  -
-                </button>
+    <>
+      <div className=" h-fit w-full bg-white rounded-xl">
+        <div className="p-6 inter">
+          <h2 className="font-semibold">Dishes category</h2>
+          <div className="flex flex-wrap gap-2 mt-4 font-medium ">
+            {categories.map((category) => (
+              <div key={category._id} className="flex items-center gap-2">
+                <div className="flex items-center gap-2 border border-gray-300 rounded-full pl-4 py-1 pr-1 bg-white text-black">
+                  <span>{category.name}</span>
+                  <button
+                    onClick={() => deleteCategoryHandler(category._id)}
+                    className="bg-black text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-gray-700"
+                  >
+                    -
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-            <DialogTrigger asChild>
-              <img src="icon.svg" onClick={() => setModalOpen(true)}></img>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add new category</DialogTitle>
-                <DialogDescription asChild>
-                  <div className="w-[412px] mt-[24px]">
-                    <span className="text-sm font-medium mb-[8px] text-black">
-                      Category name
-                    </span>
-                    <Input
-                      className="mt-2 text-black"
-                      onChange={newCategoryNameChangeHandler}
-                      placeholder="List ingredients..."
-                    />
-                    <Button
-                      onClick={createCategoryHandler}
-                      className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
-                      variant="outline"
-                    >
-                      Add Dish
-                    </Button>
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
-        {/* {categories.map((category) => {
-          return (
-            <AddCreateFood
-              key={category._id}
-              refetchFoods={() => getFoods()}
-              // foods={foods.filter(
-              //   (food) => food.categoryId._id == category._id
-              // )}
-              category={category}
-            />
-          );
-        })} */}
-        {categories.map((categor) => (
-          <div>
-            <CreateFoodDialog title={categor.name}></CreateFoodDialog>
+            <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+              <DialogTrigger asChild>
+                <img src="icon.svg" onClick={() => setModalOpen(true)}></img>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add new category</DialogTitle>
+                  <DialogDescription asChild>
+                    <div className="w-[412px] mt-[24px]">
+                      <span className="text-sm font-medium mb-[8px] text-black">
+                        Category name
+                      </span>
+                      <Input
+                        className="mt-2 text-black"
+                        onChange={newCategoryNameChangeHandler}
+                        placeholder="List ingredients..."
+                      />
+                      <Button
+                        onClick={createCategoryHandler}
+                        className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
+                        variant="outline"
+                      >
+                        Add Dish
+                      </Button>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+
+      {categories.map((category) => (
+        <div
+          key={category._id}
+          className="bg-white w-full h-fit rounded-xl mt-6"
+        >
+          <div className="p-5">
+            <div className="flex gap-4 flex-wrap">
+              <CreateFoodDialog title={category.name}></CreateFoodDialog>
+
+              {categories.map((category) => (
+                <AddCreateFood
+                  key={category._id}
+                  refetchFoods={() => getFoods()}
+                  foods={foods.filter(
+                    (food) => food.categoryId?._id == category._id
+                  )}
+                  category={category}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }

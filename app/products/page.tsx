@@ -31,26 +31,26 @@ export default function ProductPage() {
   }, []);
   return (
     <AdminLayout>
-      <DishesCategory />
-      <div className="bg-white w-full h-fit rounded-xl mt-6">
+      <DishesCategory></DishesCategory>
+
+      {/* <div className="bg-white w-full h-fit rounded-xl mt-6">
         <div className="p-5">
           <div className="flex gap-4 flex-wrap">
-            {categories.map((categor) => (
+            <CreateFoodDialog></CreateFoodDialog> */}
+      {/* {categories.map((categor) => (
               <CreateFoodDialog title={categor.name}></CreateFoodDialog>
-            ))}
+            ))}  */}
 
-            {categories.map((category) => (
-              <AddCreateFood
-                foods={foods.filter(
-                  (food) => food.categoryId._id == category._id
-                )}
-                category={category}
-                refetchFoods={() => getFoods()}
-              />
-            ))}
-          </div>
+      {/* {categories.map((category) => (
+        <AddCreateFood
+          foods={foods.filter((food) => food.categoryId == category._id)}
+          category={category}
+          refetchFoods={() => getFoods()}
+        />
+      ))} */}
+      {/* </div>
         </div>
-      </div>
+      </div> */}
     </AdminLayout>
   );
 }

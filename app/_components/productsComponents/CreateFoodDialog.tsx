@@ -11,14 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
-import { Category, FoodType } from "@/lib/types";
 
 export default function CreateFoodDialog({ title }: { title: string }) {
   const [image, setImage] = useState<File | undefined>();
   const [ingredients, setIngredients] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  // const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const AddFoodHandler = async () => {
     if (!name || !price || !image || !ingredients) {
@@ -34,7 +32,6 @@ export default function CreateFoodDialog({ title }: { title: string }) {
     }
 
     form.append("ingredients", ingredients);
-    // form.append("categoryId", selectedCategory);
 
     try {
       const res = await fetch("http://localhost:8000/api/food", {
@@ -49,34 +46,11 @@ export default function CreateFoodDialog({ title }: { title: string }) {
         setPrice("");
         setImage(undefined);
         setIngredients("");
-      } else {
-        alert(data.error || "Failed to create food");
       }
     } catch (error) {
       alert("Failed to create food");
     }
   };
-
-  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  // console.log({ selectedCategory });
-  // console.log(
-  //   "TrueFalse",
-  //   !name,
-  //   !price,
-  //   !image,
-  //   !ingredients,
-  //   !selectedCategory
-  // );
-
-  // const getCategories = async () => {
-  //   const response = await fetch("http://localhost:8000/api/categories");
-  //   const data = await response.json();
-  //   setCategories(data.data);
-  // };
-
-  // useEffect(() => {
-  //   getCategories();
-  // }, []);
 
   const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -97,84 +71,86 @@ export default function CreateFoodDialog({ title }: { title: string }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="border-1 border-red-400 border-dashed w-[270px] h-[241px] rounded-[20px]">
-        <>
-          <img
-            className="w-[40px] h-[40px] mx-auto"
-            src="/icon.svg"
-            onClick={() => setOpen(true)}
-          ></img>
-          <h2 className="mt-[24px] inter text-sm font-medium text-secondary-foreground">
-            Add new Dish to {title}
-          </h2>
-        </>
-      </DialogTrigger>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger className="border-1 border-red-400 border-dashed w-[270px] h-[241px] rounded-[20px]">
+          <>
+            <img
+              className="w-[40px] h-[40px] mx-auto"
+              src="/icon.svg"
+              onClick={() => setOpen(true)}
+            ></img>
+            <h2 className="mt-[24px] inter text-sm font-medium text-secondary-foreground">
+              Add new Dish to {title}
+            </h2>
+          </>
+        </DialogTrigger>
 
-      <DialogContent className="inter w-115 ">
-        <div className="font-bold text-lg"> Add new Dish to {title}</div>
+        <DialogContent className="inter w-115 ">
+          <div className="font-bold text-lg"> Add new Dish to {title}</div>
 
-        <DialogHeader>
-          <div className="flex gap-[24px]">
-            <div className="w-[194px] h-[60px]">
-              <div className="text-sm font-medium mb-[8px]">Food name</div>
+          <DialogHeader>
+            <div className="flex gap-[24px]">
+              <div className="w-[194px] h-[60px]">
+                <div className="text-sm font-medium mb-[8px]">Food name</div>
 
+                <Input
+                  placeholder="Type food name"
+                  value={name}
+                  onChange={nameChangeHandler}
+                />
+              </div>
+
+              <div className="w-[194px] h-[60px] ">
+                <div className="text-sm font-medium mb-[8px]">Food price</div>
+
+                <Input
+                  placeholder="Enter price..."
+                  // defaultValue={0}
+                  value={price}
+                  onChange={priceChangeHandler}
+                  type="number"
+                />
+              </div>
+            </div>
+
+            {/*  */}
+            <div className="w-[412px] mt-[24px]">
+              <div className="text-sm font-medium mb-[8px]">Ingredients</div>
               <Input
-                placeholder="Type food name"
-                value={name}
-                onChange={nameChangeHandler}
+                placeholder="List ingredients..."
+                className="h-[90px]"
+                type="text"
+                value={ingredients}
+                onChange={ingredientsChangeHandler}
               />
             </div>
 
-            <div className="w-[194px] h-[60px] ">
-              <div className="text-sm font-medium mb-[8px]">Food price</div>
-
+            {/*  */}
+            <div className="w-[412px] mt-[24px]">
+              <div className="text-sm font-medium mb-[8px]">Food image</div>
               <Input
-                placeholder="Enter price..."
-                // defaultValue={0}
-                value={price}
-                onChange={priceChangeHandler}
-                type="number"
-              />
+                className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto "
+                id="picture"
+                type="file"
+                accept="image/*"
+                onChange={fileChangeHandler}
+                placeholder="Choose a file or drag & drop it here"
+              ></Input>
             </div>
-          </div>
-
-          {/*  */}
-          <div className="w-[412px] mt-[24px]">
-            <div className="text-sm font-medium mb-[8px]">Ingredients</div>
-            <Input
-              placeholder="List ingredients..."
-              className="h-[90px]"
-              type="text"
-              value={ingredients}
-              onChange={ingredientsChangeHandler}
-            />
-          </div>
-
-          {/*  */}
-          <div className="w-[412px] mt-[24px]">
-            <div className="text-sm font-medium mb-[8px]">Food image</div>
-            <Input
-              className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto "
-              id="picture"
-              type="file"
-              accept="image/*"
-              onChange={fileChangeHandler}
-              placeholder="Choose a file or drag & drop it here"
-            ></Input>
-          </div>
-          <DialogTitle>
-            <Button
-              onClick={AddFoodHandler}
-              className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
-              variant="outline"
-            >
-              Add Dish
-            </Button>
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+            <DialogTitle>
+              <Button
+                onClick={AddFoodHandler}
+                className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
+                variant="outline"
+              >
+                Add Dish
+              </Button>
+            </DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
