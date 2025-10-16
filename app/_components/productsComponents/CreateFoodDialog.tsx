@@ -7,17 +7,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useEffect, useState } from "react";
-import { AddFoodHandler } from "../_utils/AddFoodHandler";
 
 export default function CreateFoodDialog() {
   const [image, setImage] = useState<File | undefined>();
@@ -25,21 +18,16 @@ export default function CreateFoodDialog() {
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  console.log({ selectedCategory });
-  console.log(
-    "TrueFalse",
-    !name,
-    !price,
-    !image,
-    !ingredients,
-    !selectedCategory
-  );
-  interface Category {
-    _id: string;
-    name: string;
-    __v?: number;
-  }
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  // console.log({ selectedCategory });
+  // console.log(
+  //   "TrueFalse",
+  //   !name,
+  //   !price,
+  //   !image,
+  //   !ingredients,
+  //   !selectedCategory
+  // );
 
   const getCategories = async () => {
     const response = await fetch("http://localhost:8000/api/categories");
@@ -51,13 +39,10 @@ export default function CreateFoodDialog() {
     getCategories();
   }, []);
 
-  const creareFoodHandler = async () => {
-    if (!selectedCategory) {
-      alert("Please select a category");
+  const AddFoodHandler = async () => {
+    if (!name || !price || !image || !ingredients) {
+      alert("All fields are required");
       return;
-    }
-    if (image) {
-      await AddFoodHandler(name, price, image, ingredients, selectedCategory);
     }
   };
 
@@ -143,7 +128,7 @@ export default function CreateFoodDialog() {
               placeholder="Choose a file or drag & drop it here"
             ></Input>
           </div>
-          {categories.length > 0 && (
+          {/* {categories.length > 0 && (
             <Select onValueChange={(value) => setSelectedCategory(value)}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Category" />
@@ -158,10 +143,10 @@ export default function CreateFoodDialog() {
                 })}
               </SelectContent>
             </Select>
-          )}
+          )} */}
           <DialogTitle>
             <Button
-              onClick={creareFoodHandler}
+              onClick={AddFoodHandler}
               className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
               variant="outline"
             >

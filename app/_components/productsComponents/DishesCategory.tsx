@@ -11,12 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { ChangeEvent, useEffect, useState } from "react";
 
-interface Category {
-  _id: string;
-  name: string;
-  __v?: number;
-}
-
 export default function DishesCategory() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState<string | undefined>();
@@ -30,7 +24,6 @@ export default function DishesCategory() {
     console.log(data);
     setCategories(data);
   };
-
 
   useEffect(() => {
     getDeleteCategories();

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Pen } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type FoodSchematype = {
-  _id: string;
-  name: string;
-  price: string;
-  ingredients: string;
-  image: string;
-};
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function AddCreateFood() {
   const [foods, setFoods] = useState<FoodSchematype[]>([]);
@@ -55,16 +49,91 @@ export default function AddCreateFood() {
                     className="absolute top-2 h-11 w-11 m-3"
                   />
                 </DialogTrigger>
-                <DialogContent className="inter w-115 m-6">
-                  <div className="font-bold text-lg">Dishes Info</div>
+
+                <DialogContent className="inter w-115 ">
+                  <div className="font-bold text-lg">Dishes info</div>
+
                   <DialogHeader>
-                    <DialogTitle className="mt-3 mb-3">
-                      
-                    </DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </DialogDescription>
+                    <>
+                      <div className="mt-6 flex">
+                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
+                          Dish name
+                        </div>
+
+                        <Input
+                          placeholder="Type food name"
+                          // value={name}
+                          // onChange={nameChangeHandler}
+                        />
+                      </div>
+
+                      {/*  */}
+                      <div className="mt-3 flex">
+                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
+                          Dish category
+                        </div>
+
+                        <Input
+                          placeholder="Type food name"
+                          // value={name}
+                          // onChange={nameChangeHandler}
+                        />
+                      </div>
+
+                      {/*  */}
+                      <div className="mt-3 w-[412px] flex">
+                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
+                          Ingredients
+                        </div>
+                        <Input
+                          placeholder="List ingredients..."
+                          className="h-[80px]"
+                          type="text"
+                          // value={ingredients}
+                          // onChange={ingredientsChangeHandler}
+                        />
+                      </div>
+
+                      <div className="mt-3 flex">
+                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
+                          Price
+                        </div>
+
+                        <Input
+                          placeholder="Enter price..."
+                          // defaultValue={0}
+                          // value={price}
+                          // onChange={priceChangeHandler}
+                          type="number"
+                        />
+                      </div>
+
+                      {/*  */}
+                      <div className="mt-3 w-[412px] flex justify-between">
+                        <div className="text-xs font-normal mb-3 mt-3 w-[120px] text-muted-foreground">
+                          Image
+                        </div>
+                        <Input
+                          className="h-[138px] bg-blue-50 border-1 border-dashed border-blue-200 rounded-md text-sm font-medium mx-auto "
+                          id="picture"
+                          type="file"
+                          accept="image/*"
+                          // onChange={fileChangeHandler}
+                          placeholder="Choose a file or drag & drop it here"
+                        ></Input>
+                      </div>
+
+                      <DialogTitle>
+                        <Button
+                          // onClick={creareFoodHandler}
+                          className="w-[93px] h-[40px] bg-black text-white mt-[24px] ml-[319px]"
+                          variant="outline"
+                        >
+                          Add Dish
+                        </Button>
+                      </DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </>
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
