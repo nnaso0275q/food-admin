@@ -19,6 +19,7 @@ export default function DishesCategory() {
   const [newCategory, setNewCategory] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [foods, setFoods] = useState<FoodType[]>([]);
+  console.log("foods", foods);
 
   const getCategories = async () => {
     const result = await fetch("http://localhost:8000/api/categories");
@@ -129,15 +130,21 @@ export default function DishesCategory() {
           className="bg-white w-full h-fit rounded-xl mt-6"
         >
           <div className="p-5">
+            <div className="w-[100px] h-[28px] mt-[5px] ml-[20px] mb-4 inter text-xl font-semibold">
+              {category.name}
+            </div>
             <div className="flex gap-4 flex-wrap">
-              <CreateFoodDialog title={category.name}></CreateFoodDialog>
+              <CreateFoodDialog
+                categorid={category._id}
+                title={category.name}
+              ></CreateFoodDialog>
 
               {categories.map((category) => (
                 <AddCreateFood
                   key={category._id}
-                  refetchFoods={() => getFoods()}
+                  refetchFoods={getFoods}
                   foods={foods.filter(
-                    (food) => food.categoryId?._id == category._id
+                    (food) => food.categoryId._id === category._id
                   )}
                   category={category}
                 />

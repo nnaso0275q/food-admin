@@ -9,9 +9,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AddCreateFoodProps, Category, FoodType } from "@/lib/types";
+import { Category, FoodType } from "@/lib/types";
 
 export default function AddCreateFood({
   refetchFoods,
@@ -20,6 +28,7 @@ export default function AddCreateFood({
   foods: FoodType[];
   refetchFoods: () => Promise<void>;
 }) {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [allFoods, setAllFoods] = useState<FoodType[]>([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -27,6 +36,16 @@ export default function AddCreateFood({
   const [ingredients, setIngredients] = useState("");
   const [image, setImage] = useState<File | undefined>();
   const [selectedCategory, setSelectedCategory] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  // console.log({ selectedCategory });
+  // console.log(
+  //   "TrueFalse",
+  //   !name,
+  //   !price,
+  //   !image,
+  //   !ingredients,
+  //   !selectedCategory
+  // );
 
   const getFoods = async () => {
     const result = await fetch("http://localhost:8000/api/food");
@@ -105,19 +124,18 @@ export default function AddCreateFood({
                 <DialogContent className="inter w-[480px]">
                   <DialogHeader>
                     <DialogTitle className="font-bold text-lg">
-                      Dishes infodfbkmdfkbdkfb
+                      Dishes
                     </DialogTitle>
-                    <DialogDescription>
-                      Add or update your dish details
-                    </DialogDescription>
+                    <DialogDescription />
                   </DialogHeader>
 
                   <div className="space-y-4 mt-6">
                     {/* Name */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex gap-3">
                       <span className="w-[120px] text-xs text-muted-foreground">
                         Dish name
                       </span>
+
                       <Input
                         placeholder="Type food name"
                         value={name}
@@ -126,19 +144,40 @@ export default function AddCreateFood({
                     </div>
 
                     {/* Category */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex gap-3">
                       <span className="w-[120px] text-xs text-muted-foreground">
                         Dish category
                       </span>
-                      <Input
+                      {categories.length > 0 && (
+                        <Select
+                          onValueChange={(value) => setSelectedCategory(value)}
+                        >
+                          <SelectTrigger className="w-fit">
+                            <SelectValue placeholder="Category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {categories.map((category) => {
+                              return (
+                                <SelectItem
+                                  key={category._id}
+                                  value={selectedCategory}
+                                >
+                                  {category.name}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectContent>
+                        </Select>
+                      )}
+                      {/* <Input
                         placeholder="Enter category ID"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                      />
+                      /> */}
                     </div>
 
                     {/* Ingredients */}
-                    <div className="flex items-start gap-3">
+                    <div className="flex gap-3">
                       <span className="w-[120px] text-xs text-muted-foreground">
                         Ingredients
                       </span>
@@ -151,7 +190,7 @@ export default function AddCreateFood({
                     </div>
 
                     {/* Price */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex gap-3">
                       <span className="w-[120px] text-xs text-muted-foreground">
                         Price
                       </span>
@@ -164,11 +203,12 @@ export default function AddCreateFood({
                     </div>
 
                     {/* Image */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex gap-3">
                       <span className="w-[120px] text-xs text-muted-foreground">
                         Image
                       </span>
                       <Input
+                        className="bg-blue-50"
                         type="file"
                         accept="image/*"
                         onChange={(e) =>
@@ -183,7 +223,7 @@ export default function AddCreateFood({
                         onClick={createFoodHandler}
                         className="w-[120px] h-[40px] bg-black text-white"
                       >
-                        Add Dish
+                        Save changes
                       </Button>
                     </div>
                   </div>

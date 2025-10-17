@@ -3,14 +3,7 @@ export const AddFoodHandler = async (
   price: string,
   image: File,
   ingredients: string,
-  selectedCategory: string,
-  refetchFoods: () => Promise<void>,
-  setOpen: (open: boolean) => void,
-  setName: (name: string) => void,
-  setPrice: (price: string | number) => void,
-  setImage: (image: File | undefined) => void,
-  setIngredients: (ingredients: string) => void,
-  setSelectedCategory: (category: string) => void
+  selectedCategory: string
 ) => {
   if (!name || !price || !image || !ingredients || !selectedCategory) {
     alert("All fields are required");
@@ -34,14 +27,6 @@ export const AddFoodHandler = async (
     });
 
     const data = await res.json();
-    if (res.ok) {
-      await refetchFoods();
-      setOpen(false);
-      setName("");
-      setPrice(0);
-      setImage(undefined);
-      setIngredients("");
-    }
   } catch (error) {
     alert("Failed to create food");
   }

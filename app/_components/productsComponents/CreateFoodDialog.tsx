@@ -11,13 +11,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
+import { Category } from "@/lib/types";
 
-export default function CreateFoodDialog({ title }: { title: string }) {
+export default function CreateFoodDialog({
+  categorid,
+  title,
+}: {
+  title: string;
+  categorid: string;
+}) {
   const [image, setImage] = useState<File | undefined>();
   const [ingredients, setIngredients] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+
   const AddFoodHandler = async () => {
     if (!name || !price || !image || !ingredients) {
       alert("All fields are required");
@@ -32,6 +40,7 @@ export default function CreateFoodDialog({ title }: { title: string }) {
     }
 
     form.append("ingredients", ingredients);
+    form.append("categorid", categorid);
 
     try {
       const res = await fetch("http://localhost:8000/api/food", {
@@ -87,7 +96,9 @@ export default function CreateFoodDialog({ title }: { title: string }) {
         </DialogTrigger>
 
         <DialogContent className="inter w-115 ">
-          <div className="font-bold text-lg"> Add new Dish to {title}</div>
+          <div className="font-bold text-lg">
+            Add new Dish to nasooo {title}
+          </div>
 
           <DialogHeader>
             <div className="flex gap-[24px]">
