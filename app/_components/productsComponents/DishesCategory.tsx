@@ -19,6 +19,7 @@ export default function DishesCategory() {
   const [newCategory, setNewCategory] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [foods, setFoods] = useState<FoodType[]>([]);
+
   console.log("foods", foods);
 
   const getCategories = async () => {
@@ -46,7 +47,7 @@ export default function DishesCategory() {
   const createCategoryHandler = async () => {
     await fetch("http://localhost:8000/api/categories", {
       method: "POST",
-      mode: "no-cors",
+      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,7 +62,7 @@ export default function DishesCategory() {
   const deleteCategoryHandler = async (id: string) => {
     await fetch("http://localhost:8000/api/categories/delete", {
       method: "POST",
-      mode: "no-cors",
+      // mode: "no-cors",
       headers: {
         "Content-type": "application/json",
       },
@@ -146,7 +147,7 @@ export default function DishesCategory() {
                   foods={foods.filter(
                     (food) => food.categoryId._id === category._id
                   )}
-                  category={category}
+                  categories={categories}
                 />
               ))}
             </div>

@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
-import { Category } from "@/lib/types";
 
 export default function CreateFoodDialog({
   categorid,
@@ -25,6 +24,24 @@ export default function CreateFoodDialog({
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+
+  const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const priceChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setPrice(e.target.value);
+  };
+
+  const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const ingredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIngredients(e.target.value);
+  };
 
   const AddFoodHandler = async () => {
     if (!name || !price || !image || !ingredients) {
@@ -40,7 +57,7 @@ export default function CreateFoodDialog({
     }
 
     form.append("ingredients", ingredients);
-    form.append("categorid", categorid);
+    form.append("categorId", categorid);
 
     try {
       const res = await fetch("http://localhost:8000/api/food", {
@@ -61,24 +78,6 @@ export default function CreateFoodDialog({
     }
   };
 
-  const nameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const priceChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setPrice(e.target.value);
-  };
-
-  const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const ingredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setIngredients(e.target.value);
-  };
-
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -88,7 +87,7 @@ export default function CreateFoodDialog({
               className="w-[40px] h-[40px] mx-auto"
               src="/icon.svg"
               onClick={() => setOpen(true)}
-            ></img>
+            />
             <h2 className="mt-[24px] inter text-sm font-medium text-secondary-foreground">
               Add new Dish to {title}
             </h2>
@@ -96,9 +95,7 @@ export default function CreateFoodDialog({
         </DialogTrigger>
 
         <DialogContent className="inter w-115 ">
-          <div className="font-bold text-lg">
-            Add new Dish to nasooo {title}
-          </div>
+          <div className="font-bold text-lg">Add new Dish to {title}</div>
 
           <DialogHeader>
             <div className="flex gap-[24px]">
