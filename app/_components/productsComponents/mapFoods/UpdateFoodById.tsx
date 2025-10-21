@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Category, FoodType } from "@/lib/types";
 import { Textarea } from "@/components/ui/textarea";
-import { Key } from "lucide-react";
 
 export default function UpdateFoodById({
   food,

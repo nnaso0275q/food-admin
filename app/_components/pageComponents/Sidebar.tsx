@@ -25,10 +25,7 @@ export default function Sidebar() {
         </Link>
 
         <Link href="/orders">
-          <div
-            className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center"
-            // onClick={ordersClick}
-          >
+          <div className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center">
             <img className="w-5.5 h-5.5" src="/Vector.svg"></img>
             <h2 className="text-black">Orders</h2>
           </div>
