@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Sidebar() {
   return (
@@ -16,19 +17,22 @@ export default function Sidebar() {
         </div>
         {/* header end */}
 
-        {/* black button */}
-        <Button className="mt-10 w-full h-10 rounded-full bg-primary flex gap-2.5 hover:">
-          <img src="/Dashboard.svg"></img>
-          <h2 className="text-white">Food menu</h2>
-        </Button>
-        {/* black button end */}
+        <Link href="/">
+          <Button className="mt-10 w-full h-10 rounded-full bg-primary flex gap-2.5 hover:bg-gray-200">
+            <img src="/Dashboard.svg"></img>
+            <h2 className="text-white ">Food menu</h2>
+          </Button>
+        </Link>
 
-        {/* orthers */}
-        <div className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center">
-          <img className="w-5.5 h-5.5" src="/Vector.svg"></img>
-          <h2 className="text-black">Orders</h2>
-        </div>
-        {/* orthers end*/}
+        <Link href="/orders">
+          <div
+            className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center"
+            // onClick={ordersClick}
+          >
+            <img className="w-5.5 h-5.5" src="/Vector.svg"></img>
+            <h2 className="text-black">Orders</h2>
+          </div>
+        </Link>
 
         {/* settings */}
         {/* <div className="w-full h-10 mx-6 gap-2.5 flex mt-6 items-center">

@@ -22,12 +22,10 @@ import { Key } from "lucide-react";
 
 export default function UpdateFoodById({
   food,
-  // foods,
   categories,
   refetchFoods,
 }: {
   food: FoodType;
-  // foods: FoodType[];
   categories: Category[];
   refetchFoods: () => void;
 }) {
@@ -41,7 +39,7 @@ export default function UpdateFoodById({
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     food.categoryId._id
   );
-
+  console.log("barijavah ", food);
   // Update handler
   const updateFoodHandler = async () => {
     const form = new FormData();
@@ -207,7 +205,7 @@ export default function UpdateFoodById({
           <div className="flex justify-between mt-[36px]">
             <Button
               className="w-[48px] h-[40px] border border-red-500 bg-white hover:bg-red-100"
-              onClick={() => deleteFoodHandler(food.categoryId._id)}
+              onClick={() => deleteFoodHandler(food._id)}
             >
               <img src="/trash.svg" />
             </Button>

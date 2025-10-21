@@ -141,17 +141,14 @@ export default function DishesCategory() {
                 categorid={category._id}
                 title={category.name}
               />
-
-              {categories.map((category) => (
-                <AddCreateFood
-                  key={category._id}
-                  refetchFoods={getFoods}
-                  foods={foods.filter(
-                    (food) => food.categoryId._id === category._id
-                  )}
-                  categories={categories}
-                />
-              ))}
+              <AddCreateFood
+                key={category._id}
+                refetchFoods={getFoods}
+                foods={foods.filter(
+                  (food) => food.categoryId._id === category._id
+                )}
+                categories={categories}
+              />
             </div>
           </div>
         </div>

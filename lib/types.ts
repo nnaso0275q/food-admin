@@ -12,9 +12,8 @@ export type AddCreateFoodProps = {
   refetchFoods: () => Promise<void>;
 };
 
-
 export type FoodType = {
-  _id?: string;
+  _id: string;
   name: string;
   price: number;
   ingredients: string;
@@ -22,7 +21,7 @@ export type FoodType = {
   categoryId: Category;
 };
 
-export type Category ={
+export type Category = {
   name: string;
   _id: string;
-}
+};

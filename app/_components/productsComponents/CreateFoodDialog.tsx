@@ -39,7 +39,7 @@ export default function CreateFoodDialog({
     }
   };
 
-  const ingredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const ingredientsChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setIngredients(e.target.value);
   };
 
@@ -128,7 +128,6 @@ export default function CreateFoodDialog({
               <Textarea
                 placeholder="List ingredients..."
                 className="h-[90px]"
-                type="text"
                 value={ingredients}
                 onChange={ingredientsChangeHandler}
               />
