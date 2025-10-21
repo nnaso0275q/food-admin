@@ -25,9 +25,11 @@ export default function DishesCategory() {
   const getCategories = async () => {
     const result = await fetch("http://localhost:8000/api/categories");
     const responseData = await result.json();
-    console.log({ responseData });
+    console.log("responseData", { responseData });
+
     const { data } = responseData;
     setCategories(data);
+    console.log("data", data);
   };
 
   const getFoods = async () => {
@@ -138,7 +140,7 @@ export default function DishesCategory() {
               <CreateFoodDialog
                 categorid={category._id}
                 title={category.name}
-              ></CreateFoodDialog>
+              />
 
               {categories.map((category) => (
                 <AddCreateFood

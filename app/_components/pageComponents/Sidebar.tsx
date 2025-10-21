@@ -17,7 +17,7 @@ export default function Sidebar() {
         {/* header end */}
 
         {/* black button */}
-        <Button className="mt-10 w-full h-10 rounded-full bg-primary flex gap-2.5">
+        <Button className="mt-10 w-full h-10 rounded-full bg-primary flex gap-2.5 hover:">
           <img src="/Dashboard.svg"></img>
           <h2 className="text-white">Food menu</h2>
         </Button>

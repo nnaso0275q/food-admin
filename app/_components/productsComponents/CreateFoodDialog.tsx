@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
@@ -125,7 +125,7 @@ export default function CreateFoodDialog({
             {/*  */}
             <div className="w-[412px] mt-[24px]">
               <div className="text-sm font-medium mb-[8px]">Ingredients</div>
-              <Input
+              <Textarea
                 placeholder="List ingredients..."
                 className="h-[90px]"
                 type="text"

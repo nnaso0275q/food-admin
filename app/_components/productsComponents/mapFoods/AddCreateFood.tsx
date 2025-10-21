@@ -10,9 +10,20 @@ export default function AddCreateFood({
   refetchFoods: () => void;
   foods: FoodType[];
 }) {
+  // const deleteFoodHandler = async (id: string) => {
+  //   await fetch("http://localhost:8000/api/food/delete", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({ id }),
+  //   });
+  //   // await updateFoodHandler();
+  // };
+
   return (
     <>
-      {foods?.map((food: FoodType) => (
+      {foods.map((food: FoodType) => (
         <div
           key={food._id}
           className="w-[270px] h-[241px] rounded-[20px] border border-gray-200"
