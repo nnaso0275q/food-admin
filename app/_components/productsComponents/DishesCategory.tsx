@@ -13,6 +13,7 @@ import { Category, FoodType } from "@/lib/types";
 import { ChangeEvent, useEffect, useState } from "react";
 import CreateFoodDialog from "./CreateFoodDialog";
 import AddCreateFood from "./mapFoods/AddCreateFood";
+import Image from "next/image";
 
 export default function DishesCategory() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -97,6 +98,13 @@ export default function DishesCategory() {
             <Dialog open={modalOpen} onOpenChange={setModalOpen}>
               <DialogTrigger asChild>
                 <img src="icon.svg" onClick={() => setModalOpen(true)}></img>
+                {/* <Image
+                  src="icon.svg"
+                  alt="icon.svg"
+                  width="40"
+                  height="40"
+                  onClick={() => setModalOpen(true)}
+                ></Image> */}
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
